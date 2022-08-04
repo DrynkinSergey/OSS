@@ -1,2 +1,19 @@
-body{
+*{
+  box-sizing: border-box;
+
+}
+#root{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.App{
+
+}
+.container{
+  max-width: 1200px;
+  margin: 0 auto;
+
+
+
 }
