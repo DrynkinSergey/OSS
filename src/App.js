@@ -1,23 +1,25 @@
-import logo from './logo.svg';
-import './App.css';
+import './styles.scss'
+import {Button} from "@mui/material";
+import {useDispatch, useSelector} from "react-redux";
+import {addUser} from "./redux/userSlice";
 
 function App() {
-  return (
+    const users = useSelector((state) => state.users);
+    const dispatch = useDispatch();
+    const initial =
+    {
+        id: 1,
+            name:'Вася',
+        age:22,
+        status: '-',
+        avatar: '',
+    }
+
+    console.log(users);
+    return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+        <h1>{1}</h1>
+      <Button onClick={()=> dispatch(addUser(initial))} variant="text">Text</Button>
     </div>
   );
 }
