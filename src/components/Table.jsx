@@ -11,10 +11,12 @@ import {Link} from 'react-router-dom'
 import {useDispatch, useSelector} from "react-redux";
 import {loadUsers, removeUser} from "../redux/userSlice";
 import {useEffect, useState} from "react";
+import Select from "./Select";
 
 
 export default function DenseTable() {
     const users = useSelector((state) => state.users.users);
+    const typeOfSort = useSelector((state) => state.users.sortType);
     const dispatch = useDispatch();
     const [sortedItems, setSortedItems] = useState(false);
     const [viewItems, setViewItems] = useState([]);
@@ -28,6 +30,29 @@ export default function DenseTable() {
         if (localStorage.getItem('data'))
             dispatch(loadUsers(JSON.parse(localStorage.getItem('data'))))
     }, []);
+    useEffect(() => {
+        setSortedItems(false);
+        if (typeOfSort === 'default') {
+            setSortedItems(false)
+            return
+        } else if
+        (typeOfSort === 'age') {
+            setViewItems(users
+                .concat()
+                .sort((a, b) => +a.age > +b.age ? 1 : -1)
+                .map((item) => item));
+
+        } else {
+            setViewItems(users
+                .concat()
+                .sort((a, b) => a.name > b.name ? 1 : -1)
+                .map((item) => item));
+
+        }
+
+        setSortedItems(true);
+    }, [typeOfSort]);
+
 
     const deleteUser = (id) => {
         dispatch(removeUser(id));
@@ -38,46 +63,32 @@ export default function DenseTable() {
         flexDirection: 'column',
         paddingTop: '200px'
     }
-    const sortItemByAge = () => {
-        const arr = users.concat().sort((a, b) => +a.age < +b.age ? 1 : -1).reverse()
-            .map((item) => item);
-        setSortedItems(true);
 
-        setViewItems(sortedItems?arr:users);
-    }
-    const sortItemByName = () => {
-        const arr = users.concat().sort((a, b) => a.name > b.name ? 1 : -1).reverse()
-            .map((item) => item);
-        console.log(arr)
-    }
-    const sortItemByName1 = () => {
-        const arr = users.concat().sort((a, b) => a.name < b.name ? 1 : -1).reverse()
-            .map((item) => item);
-        console.log(arr)
-    }
-
-    if (users.length === 0) {
+    if (!users.length) {
         return <div style={styles}><h1>В таблице еще нет пользователей. Давайте добавим?</h1>
             <Link to='/addUser'><Button sx={{mb: 1,}} variant="contained" color="success">Добавить</Button></Link>
         </div>
     }
     return (
         <>
-            <Link to='/addUser'><Button sx={{mb: 1,}} variant="contained" color="success">Добавить пользователя</Button></Link>
+            <div className='actions'>
+                <Link to='/addUser'><Button variant="contained" color="success">Добавить пользователя</Button></Link>
+                <Select/>
+            </div>
             <TableContainer component={Paper}>
                 <Table sx={{minWidth: 1200}} size="small" aria-label="a dense table">
                     <TableHead>
                         <TableRow>
                             <TableCell>№ п/п</TableCell>
-                            <TableCell align="center" onClick={sortItemByName1}>Аватар</TableCell>
-                            <TableCell align="center" onClick={sortItemByName}>Имя</TableCell>
-                            <TableCell align="center" onClick={sortItemByAge}>Возраст</TableCell>
+                            <TableCell align="center">Аватар</TableCell>
+                            <TableCell align="center">Имя</TableCell>
+                            <TableCell align="center">Возраст</TableCell>
                             <TableCell align="center">Статус</TableCell>
                             <TableCell align="center">Действия</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {(users&&viewItems).map((item, index) => (
+                        {(!sortedItems ? users : viewItems).map((item, index) => (
                             <TableRow
                                 key={item.id}
                                 sx={{'&:last-child td, &:last-child th': {border: 0}}}>

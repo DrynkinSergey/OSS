@@ -1,6 +1,6 @@
 *{
   box-sizing: border-box;
-
+  text-decoration: none;
 }
 body{
   display: flex;
@@ -33,6 +33,11 @@ body{
   img{
     width: 50px;
     height: 50px;
+  }
+  .actions{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
 
 }
