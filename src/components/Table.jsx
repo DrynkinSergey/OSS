@@ -9,74 +9,88 @@ import Paper from '@mui/material/Paper';
 import {Button} from "@mui/material";
 import {Link} from 'react-router-dom'
 import {useDispatch, useSelector} from "react-redux";
-import { loadUsers, removeUser} from "../redux/userSlice";
-import {useEffect} from "react";
+import {loadUsers, removeUser} from "../redux/userSlice";
+import {useEffect, useState} from "react";
 
 
 export default function DenseTable() {
     const users = useSelector((state) => state.users.users);
     const dispatch = useDispatch();
+    const [sortedItems, setSortedItems] = useState(false);
+    const [viewItems, setViewItems] = useState([]);
     useEffect(() => {
-        if(users.length>0){
+        if (users.length > 0) {
             window.localStorage.setItem('data', JSON.stringify(users));
         }
     }, [users]);
 
     useEffect(() => {
-        if(localStorage.getItem('data'))
-
-
-                dispatch(loadUsers(JSON.parse(localStorage.getItem('data'))))
-
+        if (localStorage.getItem('data'))
+            dispatch(loadUsers(JSON.parse(localStorage.getItem('data'))))
     }, []);
 
     const deleteUser = (id) => {
         dispatch(removeUser(id));
-        localStorage.clear()
-
     }
     const styles = {
-            display: 'flex',
-            alignItems: 'center',
-            flexDirection: 'column',
-            paddingTop: '200px'
-        }
+        display: 'flex',
+        alignItems: 'center',
+        flexDirection: 'column',
+        paddingTop: '200px'
+    }
+    const sortItemByAge = () => {
+        const arr = users.concat().sort((a, b) => +a.age < +b.age ? 1 : -1).reverse()
+            .map((item) => item);
+        setSortedItems(true);
 
+        setViewItems(sortedItems?arr:users);
+    }
+    const sortItemByName = () => {
+        const arr = users.concat().sort((a, b) => a.name > b.name ? 1 : -1).reverse()
+            .map((item) => item);
+        console.log(arr)
+    }
+    const sortItemByName1 = () => {
+        const arr = users.concat().sort((a, b) => a.name < b.name ? 1 : -1).reverse()
+            .map((item) => item);
+        console.log(arr)
+    }
 
     if (users.length === 0) {
-        return <div style={styles}><h1>Users is not added yet. You can do it!</h1>
-            <Link to='/addUser'><Button sx={{mb: 1,}} variant="contained" color="success">Add user</Button></Link>
+        return <div style={styles}><h1>В таблице еще нет пользователей. Давайте добавим?</h1>
+            <Link to='/addUser'><Button sx={{mb: 1,}} variant="contained" color="success">Добавить</Button></Link>
         </div>
     }
     return (
         <>
-            <Link to='/addUser'><Button sx={{mb: 1,}} variant="contained" color="success">Add user</Button></Link>
+            <Link to='/addUser'><Button sx={{mb: 1,}} variant="contained" color="success">Добавить пользователя</Button></Link>
             <TableContainer component={Paper}>
                 <Table sx={{minWidth: 1200}} size="small" aria-label="a dense table">
                     <TableHead>
                         <TableRow>
-                            <TableCell>id</TableCell>
-                            <TableCell align="center">Avatar</TableCell>
-                            <TableCell align="center">Name</TableCell>
-                            <TableCell align="center">Age</TableCell>
-                            <TableCell align="center">Status</TableCell>
-                            <TableCell align="center">Actions</TableCell>
+                            <TableCell>№ п/п</TableCell>
+                            <TableCell align="center" onClick={sortItemByName1}>Аватар</TableCell>
+                            <TableCell align="center" onClick={sortItemByName}>Имя</TableCell>
+                            <TableCell align="center" onClick={sortItemByAge}>Возраст</TableCell>
+                            <TableCell align="center">Статус</TableCell>
+                            <TableCell align="center">Действия</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {users.map((item, index) => (
+                        {(users&&viewItems).map((item, index) => (
                             <TableRow
                                 key={item.id}
                                 sx={{'&:last-child td, &:last-child th': {border: 0}}}>
                                 <TableCell component="th" scope="row">{index + 1}</TableCell>
-                                <TableCell align="center">{item.avatar}</TableCell>
+                                <TableCell align="center"><img src={item.avatar} alt=""/></TableCell>
                                 <TableCell align="center">{item.name}</TableCell>
                                 <TableCell align="center">{item.age}</TableCell>
                                 <TableCell align="center">{item.status}</TableCell>
-                                <TableCell align="center" >
-                                    <Link to='/editUser'><Button sx={{mr: 1,}} variant="contained" color="success">Edit</Button></Link>
+                                <TableCell align="center">
+                                    <Link to={`/editUser/${item.id}`}><Button sx={{mr: 1,}} variant="contained"
+                                                                              color="success">Редактировать</Button></Link>
                                     <Button onClick={() => deleteUser(item.id)} variant="contained"
-                                            color='error'>Delete</Button></TableCell>
+                                            color='error'>х</Button></TableCell>
                             </TableRow>
                         ))}
                     </TableBody>

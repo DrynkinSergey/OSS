@@ -2,18 +2,37 @@
   box-sizing: border-box;
 
 }
-#root{
+body{
   display: flex;
   align-items: center;
   justify-content: center;
+  margin: 0;
+  height: 100vh;
 }
-.App{
-
+.addForm{
+  border: 1px solid #6fbafd;
+  border-radius: 10px;
+  gap:10px;
+  display: flex;
+  padding: 25px;
+  flex-direction: column;
+  height: 400px;
+  width: 400px;
+  justify-content: center;
+  button{
+    width: 100%;
+  }
 }
 .container{
   max-width: 1200px;
   margin: 0 auto;
-
-
+  top: 10%;
+  left: 0;
+  right: 0;
+  position: absolute;
+  img{
+    width: 50px;
+    height: 50px;
+  }
 
 }

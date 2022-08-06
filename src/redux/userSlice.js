@@ -1,29 +1,8 @@
-import { createSlice } from '@reduxjs/toolkit'
+import {createSlice} from '@reduxjs/toolkit'
 
 const initialState = {
-   /*users:[{
-       id:1,
-       avatar: '-',
-       name: 'Sergey',
-       age: 26,
-       status: '-'
-   },
-       {
-           id:2,
-           avatar: '-',
-           name: 'Antonio',
-           age: 36,
-           status: 'active'
-       },
-       {
-           id:3,
-           avatar: '-',
-           name: 'Pedro',
-           age: 16,
-           status: 'active'
-       },
-   ]*/
-    users:[]
+    users: [],
+    singleUser: null
 }
 
 export const usersSlice = createSlice({
@@ -33,17 +12,28 @@ export const usersSlice = createSlice({
         addUser: (state, action) => {
             state.users = [...state.users, action.payload]
         },
-        removeUser: (state,action) =>{
-            if(window.confirm('Вы действительно хотите удалить пользователя?')){state.users = state.users.filter(obj => obj.id !== action.payload)}
+        getUser: (state, action) => {
+            state.singleUser = {...state.users.filter(obj => obj.id === action.payload)}
         },
-        editUser: (state, action) => {
-            state.users = [...state.users, action.payload]
+        removeUser: (state, action) => {
+            if (window.confirm('Вы действительно хотите удалить пользователя?')) {
+                state.users = state.users.filter(obj => obj.id !== action.payload)
+            }
         },
-        loadUsers:(state,action) =>{
+        editUser: (state, action
+        ) => {
+            const findItem = state.users.find(obj => obj.id === action.payload.id);
+            if (findItem) {
+                findItem.name = action.payload.name;
+                findItem.age = action.payload.age;
+                findItem.avatar = action.payload.avatar;
+            }
+        },
+        loadUsers: (state, action) => {
             state.users = action.payload;
         }
     },
 })
-export const { addUser,removeUser,editUser,loadUsers} = usersSlice.actions;
+export const {addUser, removeUser, editUser, loadUsers, getUser} = usersSlice.actions;
 
 export default usersSlice.reducer

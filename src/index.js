@@ -14,15 +14,12 @@ import EditUser from "./components/EditUser";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
     <Provider store={store}>
-    <BrowserRouter>
-        <Routes>
-            <Route path="/" exact element={<App/>}/>
-            <Route path="/addUser" exact element={<AddUser/>}/>
-            <Route path="/editUser?:id" exact element={<EditUser/>}/>
-        </Routes>
-
-    </BrowserRouter>
-                </Provider>
-
-
+        <BrowserRouter>
+            <Routes>
+                <Route path="/" exact element={<App/>}/>
+                <Route path="/addUser" exact element={<AddUser/>}/>
+                <Route path="/editUser/:id" exact element={<EditUser/>}/>
+            </Routes>
+        </BrowserRouter>
+    </Provider>
 );
