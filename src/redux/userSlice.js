@@ -17,8 +17,12 @@ export const usersSlice = createSlice({
             state.singleUser = {...state.users.filter(obj => obj.id === action.payload)}
         },
         removeUser: (state, action) => {
-            if (window.confirm('Вы действительно хотите удалить пользователя?')) {
+            const findItem = state.users.find(obj => obj.id === action.payload);
+
+            if (window.confirm(`Вы действительно хотите удалить пользователя ${findItem.name}?`)) {
                 state.users = state.users.filter(obj => obj.id !== action.payload)
+                if (state.users.length === 0)
+                    window.localStorage.removeItem('data')
             }
         },
         editUser: (state, action
@@ -39,6 +43,6 @@ export const usersSlice = createSlice({
 
     },
 })
-export const {addUser, removeUser, editUser, loadUsers, getUser,setSortType} = usersSlice.actions;
+export const {addUser, removeUser, editUser, loadUsers, getUser, setSortType} = usersSlice.actions;
 
 export default usersSlice.reducer

@@ -3,7 +3,7 @@
   height: 600px;
   position: relative;
   margin: 3% 15px;
-  box-shadow: 2px 18px 70px 0px #9D9D9D;
+  box-shadow: 2px 18px 70px 0 #9D9D9D;
   overflow: hidden;
   @media (max-width: 820px){
     width: 95vw;
@@ -55,6 +55,7 @@
       &.access{
         background-color: #007bff;
         color: white;
+        tab-index: 99;
       }
 
     }
