@@ -10,25 +10,30 @@ import {Button} from "@mui/material";
 import {Link} from 'react-router-dom'
 import {useDispatch, useSelector} from "react-redux";
 import {loadUsers, removeUser} from "../redux/userSlice";
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import Select from "./Select";
+import {ReactComponent as Logo} from "../img/osSystemLogo.svg";
+import {ReactComponent as EditIcon} from "../img/edit.svg";
+import styles from "./AddUser/AddUser.module.scss";
 
 
 export default function DenseTable() {
+    const firstLoading = useRef(true);
     const users = useSelector((state) => state.users.users);
     const typeOfSort = useSelector((state) => state.users.sortType);
     const dispatch = useDispatch();
     const [sortedItems, setSortedItems] = useState(false);
     const [viewItems, setViewItems] = useState([]);
     useEffect(() => {
-        if (users.length > 0) {
-            window.localStorage.setItem('data', JSON.stringify(users));
+        if(users===0){
+            localStorage.removeItem('data');
         }
+            window.localStorage.setItem('data', JSON.stringify(users));
     }, [users]);
 
-    useEffect(() => {
-        if (localStorage.getItem('data'))
-            dispatch(loadUsers(JSON.parse(localStorage.getItem('data'))))
+    useEffect(  () => {
+            dispatch( loadUsers( JSON.parse(localStorage.getItem('data'))))
+
     }, []);
     useEffect(() => {
         setSortedItems(false);
@@ -61,30 +66,35 @@ export default function DenseTable() {
         display: 'flex',
         alignItems: 'center',
         flexDirection: 'column',
-        paddingTop: '200px'
+        paddingTop: '200px',
+        textAlign: 'center'
     }
 
     if (!users.length) {
-        return <div style={styles}><h1>В таблице еще нет пользователей. Давайте добавим?</h1>
+        return <div style={styles}>
+            <Logo  width='140px' height='45px' className='logo'/>
+
+            <h1>В таблице еще нет пользователей. Давайте добавим?</h1>
             <Link to='/addUser'><Button sx={{mb: 1,}} variant="contained" color="success">Добавить</Button></Link>
         </div>
     }
     return (
         <>
+            <Logo  width='140px' height='45px' className='logo'/>
             <div className='actions'>
                 <Link to='/addUser'><Button variant="contained" color="success">Добавить пользователя</Button></Link>
                 <Select/>
             </div>
             <TableContainer component={Paper}>
-                <Table sx={{minWidth: 1200}} size="small" aria-label="a dense table">
+                <Table  size="small" aria-label="a dense table">
                     <TableHead>
                         <TableRow>
-                            <TableCell>№ п/п</TableCell>
-                            <TableCell align="center">Аватар</TableCell>
-                            <TableCell align="center">Имя</TableCell>
-                            <TableCell align="center">Возраст</TableCell>
-                            <TableCell align="center">Статус</TableCell>
-                            <TableCell align="center">Действия</TableCell>
+                            <TableCell align='center' sx={{width: '30px'}}>№ п/п</TableCell>
+                            <TableCell align="center" sx={{width: '20px'}}>Аватар</TableCell>
+                            <TableCell align="center" sx={{width: '220px'}}>Имя</TableCell>
+                            <TableCell align="center" sx={{width: '20px'}}>Возраст</TableCell>
+                            <TableCell align="center" sx={{width: '20px'}}>Статус</TableCell>
+                            <TableCell align="center" className='tableAction' sx={{width: '360px'}}>Действия</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -92,14 +102,14 @@ export default function DenseTable() {
                             <TableRow
                                 key={item.id}
                                 sx={{'&:last-child td, &:last-child th': {border: 0}}}>
-                                <TableCell component="th" scope="row">{index + 1}</TableCell>
+                                <TableCell align='center' sx={{width:'20px'}} component="th" scope="row">{index + 1}</TableCell>
                                 <TableCell align="center"><img src={item.avatar} alt=""/></TableCell>
                                 <TableCell align="center">{item.name}</TableCell>
                                 <TableCell align="center">{item.age}</TableCell>
                                 <TableCell align="center">{item.status}</TableCell>
                                 <TableCell align="center">
                                     <Link to={`/editUser/${item.id}`}><Button sx={{mr: 1,}} variant="contained"
-                                                                              color="success">Редактировать</Button></Link>
+                                                                              ><EditIcon height='24px'/></Button></Link>
                                     <Button onClick={() => deleteUser(item.id)} variant="contained"
                                             color='error'>х</Button></TableCell>
                             </TableRow>

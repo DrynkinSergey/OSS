@@ -8,7 +8,7 @@ import {
     Routes,
     Route,
 } from "react-router-dom";
-import AddUser from "./components/AddUser";
+import AddUser from "./components/AddUser/AddUser";
 import EditUser from "./components/EditUser";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));

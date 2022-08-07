@@ -9,22 +9,10 @@ body{
   margin: 0;
   height: 100vh;
 }
-.addForm{
-  border: 1px solid #6fbafd;
-  border-radius: 10px;
-  gap:10px;
-  display: flex;
-  padding: 25px;
-  flex-direction: column;
-  height: 400px;
-  width: 400px;
-  justify-content: center;
-  button{
-    width: 100%;
-  }
-}
+
 .container{
-  max-width: 1200px;
+  padding: 0 15px;
+  max-width: 1000px;
   margin: 0 auto;
   top: 10%;
   left: 0;
@@ -38,6 +26,30 @@ body{
     display: flex;
     justify-content: space-between;
     align-items: center;
+    button{
+      background-color: #007bff;
+    }
   }
+button{
+  background-color: #007bff;
+  margin-bottom: 5px;
+  @media (max-width: 745px){
+    font-size: .8rem;
+    margin: 3px auto;
 
+  }
+}
+}
+th{
+  color: white !important;
+  background-color: #007bff;
+}
+.logo *{
+  fill: #007bff;
+
+}
+.logo{
+  transform: scale(1.5);
+  display: block;
+  margin: 20px auto;
 }
