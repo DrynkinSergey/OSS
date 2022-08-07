@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/OSsystem/static/css/main.cc18d312.css",
+    "main.js": "/OSsystem/static/js/main.b2e95e6d.js",
+    "static/media/osSystemLogo.svg": "/OSsystem/static/media/osSystemLogo.7cc0aefc4b8ea72d1b24a6384baf1d8a.svg",
+    "static/media/edit.svg": "/OSsystem/static/media/edit.1f74d154a263527a7e74b0ae8c7adee5.svg",
+    "index.html": "/OSsystem/index.html",
+    "static/media/arrow.svg": "/OSsystem/static/media/arrow.55701d8e27b0f1737bab9c9dbe408e0a.svg",
+    "main.cc18d312.css.map": "/OSsystem/static/css/main.cc18d312.css.map",
+    "main.b2e95e6d.js.map": "/OSsystem/static/js/main.b2e95e6d.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.cc18d312.css",
+    "static/js/main.b2e95e6d.js"
+  ]
+}
